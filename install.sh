@@ -88,6 +88,15 @@ caskinstall istat-menus
 caskinstall aerial
 caskinstall transmission
 install "Xcode"
+# Dev
+brewinstall wget
+brewinstall composer
+brewinstall dnsmasq
+brewinstall elasticsearch@2.4
+brewinstall imagemagick
+brewinstall mariadb
+brewinstall mcrypt
+brewinstall node
 
 echo "Installation des apps Google."
 caskinstall google-chrome
@@ -138,17 +147,6 @@ defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 
 
-# Dev
-brewinstall wget
-brewinstall composer
-brewinstall dnsmasq
-brewinstall elasticsearch@2.4
-brewinstall imagemagick
-brewinstall mariadb
-brewinstall mcrypt
-brewinstall node
-
-
 echo "Brew Cleanup."
 brew cleanup
 rm -f -r ~/Library/Caches/Homebrew/*
@@ -170,3 +168,5 @@ echo "Finder et Dock relancés… redémarrage nécessaire pour terminer."
 killall Dock
 killall Finder
 
+
+printf "==> \e[32m [DONE] \e[0m $1 ET VOILÀ !\n"
