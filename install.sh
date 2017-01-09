@@ -56,13 +56,13 @@ function caskinstall (){
 echo 'Installation de mas, pour installer les apps du Mac App Store.'
 brewinstall mas
 
+mas account | grep -i "Not signed in" > /dev/null
 
-echo "Saisir le mail du compte iTunes :" 
-read COMPTE
-echo "Saisir le mot de passe du compte : $COMPTE"
-read PASSWORD
-mas signin $COMPTE "$PASSWORD"
-
+if [ "$?" == 0 ]; then
+	echo "Saisir le mail du compte iTunes :" 
+	read COMPTE
+	mas signin $COMPTE
+fi
 
 
 
@@ -105,14 +105,18 @@ install "Keynote"
 install "Numbers"
 install "GarageBand"
 
-echo "Installation des utiliataires"
+echo "Installation des utilitaires"
 install "Bento"
 install "Microsoft Remote Desktop"
 install "Memory Clean"
 install "Wunderlist"
 install "Bear"
 
+echo "Installation des applications musicales"
+caskinstall spotify
 
+
+echo "Configuration des préférences du finder"
 # Afficher le dossier maison par défaut
 defaults write com.apple.finder NewWindowTarget -string "PfHm"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
