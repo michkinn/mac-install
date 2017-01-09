@@ -80,13 +80,15 @@ brew update
 
 
 echo 'Installation des apps : développement.'
-caskinstall iterm2 
+caskinstall iterm2
+caskinstall sequel-pro
 caskinstall textmate
 caskinstall transmit
 caskinstall viscosity 
 caskinstall istat-menus
 caskinstall aerial
 caskinstall transmission
+caskinstall skype
 install "Xcode"
 # Dev
 brewinstall wget
@@ -121,8 +123,9 @@ install "Memory Clean"
 install "Wunderlist"
 install "Bear"
 
-echo "Installation des applications musicales"
+echo "Installation des applications perso"
 caskinstall spotify
+caskinstall vlc
 
 
 echo "Configuration des préférences du finder"
