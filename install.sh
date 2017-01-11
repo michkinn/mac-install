@@ -81,7 +81,7 @@ if [ $ANSWER_DEV == "Y" ]; then
 	caskinstall sequel-pro
 	caskinstall textmate
 	caskinstall sublime-text
-	caskinstall source-tree
+	caskinstall sourcetree
 	install "Xcode"
 	caskinstall transmit
 	caskinstall phpstorm
@@ -93,10 +93,9 @@ fi
 printf "\e[32m [Info] \e[0m $1 Installation de l'ecosystème php ? [Y/n] : "
 read ANSWER_PHP
 
-if [ ANSWER_PHP == "Y" ]; then
+if [ $ANSWER_PHP == "Y" ]; then
 	echo "Installation de l'ecosystème php."
-	
-	
+		
 	echo "Installation d'extension Brew"
 	brew tap homebrew/dupes
 	brew tap homebrew/versions
@@ -112,15 +111,22 @@ if [ ANSWER_PHP == "Y" ]; then
 	
 	brewinstall dnsmasq
 	echo "Configuration de DNSMASK."
-	rm /usr/local/etc/dnsmasq.conf
-	echo 'address=/.lan/127.0.0.1' > /usr/local/etc/dnsmasq.conf
-	sudo brew services restart dnsmasq
 	
-	brewinstall elasticsearch@2.4
-	brewinstall imagemagick
-	brewinstall mariadb
-	brewinstall mcrypt
-	brewinstall node
+	if [ -f "/usr/local/etc/dnsmasq.conf" ];
+	then
+	   rm /usr/local/etc/my_dnsmasq.conf
+	fi
+	
+	echo 'address=/.lan/127.0.0.1' > /usr/local/etc/dnsmasq.conf
+	
+	if [ -f "/etc/resolver/lan" ];
+	then
+	   rm /etc/resolver/lan
+	fi
+
+	sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/lan'
+	
+	sudo brew services restart dnsmasq
 	
 	sudo apachectl stop
 	sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
@@ -147,15 +153,26 @@ if [ ANSWER_PHP == "Y" ]; then
 	brewinstall php70-imagick
 	brewinstall php70-intl
 	brewinstall php70-mcrypt
-	brewinstall php70-memcached
+	brewinstall --HEAD homebrew/php/php70-memcached
 	brewinstall php70-pdo-dblib
 	
 	brew install xdebug-osx
+
+	brewinstall elasticsearch@2.4
+	brewinstall imagemagick
+	brewinstall mariadb
+	mysql_install_db
+	mysql.server start
+	brewinstall mcrypt
+	brewinstall node
+
+	npm install -g less
 	
 	#Installation PHPSwitcher
 	curl -L https://gist.github.com/w00fz/142b6b19750ea6979137b963df959d11/raw > /usr/local/bin/sphp
 	chmod +x /usr/local/bin/sphp
 fi
+
 
 
 echo "Installation des apps Google."
