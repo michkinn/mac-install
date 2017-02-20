@@ -77,15 +77,14 @@ read ANSWER_DEV
 
 if [ $ANSWER_DEV == "Y" ]; then
 	echo 'Installation des apps : développement.'
-	caskinstall iterm2
 	caskinstall sequel-pro
-	caskinstall textmate
 	caskinstall sublime-text
 	caskinstall sourcetree
 	install "Xcode"
 	caskinstall transmit
 	caskinstall phpstorm
 	caskinstall sqlpro-for-mssql
+	sudo gem install mailcatcher
 fi
 
 
@@ -171,6 +170,15 @@ if [ $ANSWER_PHP == "Y" ]; then
 	#Installation PHPSwitcher
 	curl -L https://gist.github.com/w00fz/142b6b19750ea6979137b963df959d11/raw > /usr/local/bin/sphp
 	chmod +x /usr/local/bin/sphp
+
+	# Preparation xdebug
+	if [ ! -d ~/tmp/xdebug ]; then
+		echo "Préparation Logs Xdebug"
+		mkdir -p ~/tmp/xdebug
+		chmod 777 ~/tmp/xdebug
+	else
+		printf "\e[32m[Info]\e[0m Xdebug directory ready\n"
+	fi
 fi
 
 
@@ -213,12 +221,12 @@ caskinstall aerial
 caskinstall transmission
 caskinstall skype
 caskinstall unrarx
+caskinstall iterm2
 
 
 echo "Installation des applications perso"
 caskinstall spotify
 caskinstall vlc
-
 
 printf "\e[32m [Info] \e[0m $1 Installation de Play On Mac ? [Y/n] : "
 read ANSWER_PLAYONMAC
@@ -227,7 +235,6 @@ if [ ANSWER_PLAYONMAC == "Y" ]; then
 	echo "Installation de Play On Mac"
 	caskinstall playonmac
 fi
-
 
 echo "Configuration des préférences du finder"
 # Afficher le dossier maison par défaut
@@ -249,28 +256,14 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool YES
 # Recherche dans le dossier en cours par défaut
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
-
-
 echo "Brew Cleanup."
 brew cleanup
 rm -f -r ~/Library/Caches/Homebrew/*
-
-
-# Preparation xdebug
-if [ ! -d ~/tmp/xdebug ]; then
-	echo "Préparation Logs Xdebug"
-	mkdir -p ~/tmp/xdebug
-	chmod 777 ~/tmp/xdebug
-else
-	printf "\e[32m[Info]\e[0m Xdebug directory ready\n"
-fi
-
 
 
 ## ************ Fin de l'installation *********
 echo "Finder et Dock relancés… redémarrage nécessaire pour terminer."
 killall Dock
 killall Finder
-
 
 printf "==> \e[32m [DONE] \e[0m $1 ET VOILÀ !\n"
